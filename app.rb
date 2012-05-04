@@ -26,13 +26,32 @@ class Comparatron
 		openURI(@uri)
 	end
 
-	def showTextValues
-		nodes = getNodes("//h3/a")
+	def showTextValues(xpath)
+		nodes = getNodes(xpath)
 		nodes.each do |node|
 			puts node.text
 		end
 	end
+
+	def compareValues(firstNodeXPath, secondNodeXPath)
+		firstvalue = getNodes(firstNodeXPath).first.text.to_i
+		secondValue = getNodes(secondNodeXPath).first.text.to_i
+		#puts firstvalue
+		#puts secondValue
+		firstvalue > secondValue
+	end
 end
 
-comparatron = Comparatron.new("http://www.google.com/search?q=doughnuts");
-comparatron.showTextValues
+def shout(thing)
+	if(thing == true)
+		puts "True!"
+	else
+		puts "False!"
+	end
+end
+
+comparatron = Comparatron.new("http://www.londonelects.org.uk/im-voter/results-and-past-elections/live-results-2012?contest=23");
+#comparatron.showTextValues
+shout( comparatron.compareValues(
+		'//*[@id="content"]/div[1]/table/tbody/tr[1]/td[2]/span',
+		'//*[@id="content"]/div[1]/table/tbody/tr[2]/td[2]/span'))
